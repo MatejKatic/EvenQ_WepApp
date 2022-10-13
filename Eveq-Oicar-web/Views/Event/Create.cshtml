@@ -1,0 +1,69 @@
+﻿@model Eveq_Oicar_web.Models.Event
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form asp-action="Create" enctype="multipart/form-data">
+
+    @using (Html.BeginForm(new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.IDEvent)
+        @Html.HiddenFor(model => model.Location)
+        @Html.HiddenFor(model => model.LocationId)
+
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" data-val-required="Event mora imati naslov." />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" data-val-required="Event mora imati deskripciju." />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="Date" class="control-label"></label>
+            <input asp-for="Date" class="form-control" data-val-required="Event mora imati datum pocetka."  />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Location" class="control-label"></label>
+            <input asp-for="LocationId" class="form-control" data-val-required="Event mora imati id lokacije koja je veca od 0" />
+            <span asp-validation-for="LocationId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="TicketPrice" class="control-label"></label>
+            <input asp-for="TicketPrice" class="form-control" data-val-required="Odredite cijenu eventa da bude veca od 0" />
+            <span asp-validation-for="TicketPrice" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PosterImage" class="control-label"></label>
+            <input name="images" type="file" class="form-control" />
+            <span asp-validation-for="PosterImage" class="text-danger" data-val-required="Event mora imati sliku"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn button" />
+            <input type="reset" value="Reset" class="btn button" />
+        </div>
+    }
+
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    $(function () {
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD.MM.YYYY", true).isValid();
+        }
+    });
+</script>
